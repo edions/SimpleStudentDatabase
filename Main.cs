@@ -7,8 +7,8 @@ namespace StudentDatabaseApp
 {
     public partial class Main : Form
     {
-        private readonly SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Acer\\source\\repos\\CRUD-App\\Database1.mdf;Integrated Security=True");
-        int ID = 0;
+        private readonly SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Database1.mdf;Integrated Security=True");
+        int selectedId = 0;
 
         public Main()
         {
@@ -53,7 +53,7 @@ namespace StudentDatabaseApp
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
-                ID = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
+                selectedId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
                 textBox1.Text = row.Cells[1].Value.ToString();
                 comboBox1.Text = row.Cells[2].Value.ToString();
             }
@@ -97,7 +97,7 @@ namespace StudentDatabaseApp
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "update StudentDB set name='" + textBox1.Text + "',course='" + comboBox1.Text + "'where id=@id";
-            cmd.Parameters.AddWithValue("@id", ID);
+            cmd.Parameters.AddWithValue("@id", selectedId);
             cmd.ExecuteNonQuery();
             con.Close();
             ClearData();
